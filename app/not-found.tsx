@@ -1,5 +1,5 @@
 import css from '@/app/Home.module.css'
-export default function MotFound() {
+export default function NotFound() {
   return (
     <>
       <h1 className={css.title}>404 - Page not found</h1>
