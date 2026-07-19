@@ -3,12 +3,17 @@
 import { fetchNoteById } from '@/lib/api'
 import { useQuery } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
-import css from './NoteDetails.module.css'
+import css from '@/app/@modal/(.)notes/[id]/NotePreview.module.css'
+import Modal from '@/components/Modal/Modal'
 
-export default function NoteDetailsClient() {
+export default function NotePreviewClient() {
   const router = useRouter()
   const { id } = useParams<{ id: string }>()
-  const { data: note, isLoading, isError } = useQuery({
+  const {
+    data: note,
+    isLoading,
+    isError
+  } = useQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
     refetchOnMount: false
@@ -22,8 +27,12 @@ export default function NoteDetailsClient() {
     return <p>Something went wrong.</p>
   }
 
+  function handleClose() {
+    router.back()
+  }
+
   return (
-    <main className={css.main}>
+    <Modal onClose={handleClose}>
       <div className={css.container}>
         <div className={css.item}>
           <button className={css.backBtn} onClick={() => router.back()}>
@@ -37,6 +46,6 @@ export default function NoteDetailsClient() {
           <p className={css.date}>{note.createdAt}</p>
         </div>
       </div>
-    </main>
+    </Modal>
   )
 }
